@@ -1,1 +1,14 @@
 asdlkajsdzxcioi Hello World
+
+你需要完成代码生成的工作：
+
+输入：AST，给定一颗树，输入根结点DiGraphNode<Node,Branch> root.
+
+输出：生成的javascript代码
+
+Note: 这个步骤只要直接输出就好，暂时不用处理太多类型的结点，SCRIPT, ADD, VAR, IF, BLOCK,FOR,EXPR_RESULT结点，
+其他的结点根据后面完成进度继续处理。
+
+应该不会太复杂，现在我们不考虑删除子图，仅仅是完成一遍常量传播之后替换变量为常量直接输出。
+
+估计全速完成时间：3h 30min

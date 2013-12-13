@@ -10,7 +10,6 @@ import com.google.javascript.rhino.Node;
 public class Parser {
 	
 	private static final String EXTERNS = "";
-
 	
     static SourceFile fromEmptyCode() { // TODO: why is this method needed??
             return fromCode("", new String("dummy.js"));
@@ -66,7 +65,5 @@ public class Parser {
 		ConstantPropagation cpf = new ConstantPropagation();
 		cpf.init(cfg, symbol_table);
 		cpf.process();
-		System.out.println("sdfa");
-		//System.exit(0);
 	}
 }

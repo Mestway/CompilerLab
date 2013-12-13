@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import com.google.javascript.jscomp.ControlFlowGraph.Branch;
 import com.google.javascript.jscomp.NodeEx.STATE;
+import com.google.javascript.jscomp.NodeEx.GraphNodeType;
 import com.google.javascript.jscomp.SymbolTable.Symbol;
 import com.google.javascript.jscomp.graph.DiGraph.DiGraphEdge;
 import com.google.javascript.jscomp.graph.DiGraph.DiGraphNode;
@@ -50,9 +51,15 @@ public class ConstantPropagation {
 	{	
 		HashMap<Symbol, VarVal> newMap = copyMap(node.getMap());
 		
-		//TODO: continue writing processing part
-		switch(node.getNode().getValue().getType()) {
-		case Token.VAR:
+		System.out.println(node.getNode().getValue().getType());
+	
+		
+		switch(node.getTreeNodeType()) {
+		case WH_SCRIPT:
+			System.out.println(node);
+			ScriptInit(newMap);
+			break;
+		case WH_VAR:
 			//DefinitionHandler(diNode, inMap);
 			System.out.println("Some Nodes: " + node.getNode().getValue());
 			break;
@@ -62,6 +69,7 @@ public class ConstantPropagation {
 		
 		if(node.map_equal(newMap))
 		{
+			System.out.println("EQUAL");
 			node.state = STATE.STABLE;
 		}
 		
@@ -76,6 +84,15 @@ public class ConstantPropagation {
 		
 	}
 	
+	private void ScriptInit(HashMap<Symbol, VarVal> newMap) {
+		// TODO Auto-generated method stub
+		for(Entry<Symbol, VarVal> i : newMap.entrySet())
+		{
+			i.getValue().init();
+			System.err.println(i.getKey() + " " + i.getValue().getValue());
+		}
+	}
+
 	public void process()
 	{
 		DiGraphNode<Node,Branch> entry_node = cfg.getEntry();
@@ -89,7 +106,7 @@ public class ConstantPropagation {
 		
 		for(Entry<Symbol, VarVal> i : src.entrySet())
 		{
-			dst.put(i.getKey(),i.getValue());
+			dst.put(i.getKey(),new VarVal(i.getValue()));
 		}
 		
 		return dst;

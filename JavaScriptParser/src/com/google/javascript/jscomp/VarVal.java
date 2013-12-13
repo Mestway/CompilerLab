@@ -4,11 +4,24 @@ public class VarVal {
 	
 	static final String UNDEF = "*UNDEF*";
 	static final String NAC = "*NAC*";
+	static final String NOTSTART = "*NOTSTART*";
 	
 	String value;
 	String type;
 	
 	public VarVal()
+	{
+		value = NOTSTART;
+		type = new String();
+	}
+	
+	public VarVal(VarVal v)
+	{
+		value = new String(v.value);
+		type = new String(v.type);
+	}
+	
+	public void init()
 	{
 		value = UNDEF;
 	}
