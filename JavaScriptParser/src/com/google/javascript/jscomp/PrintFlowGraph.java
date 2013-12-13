@@ -55,7 +55,7 @@ public class PrintFlowGraph {
 			{
 				t ++;
 			}
-			emit("number of siblings: " + t);
+			//emit("number of siblings: " + t);
 		}
 		
 		node_set.add(node);
@@ -76,7 +76,10 @@ public class PrintFlowGraph {
 		if(node == null)
 			return;
 		
-		emit2(node + " " + node.getClass(),depth);
+		if(node.isString())
+			emit2(node,depth);
+		
+		//emit2(node + " " + node.getClass(),depth);
 		for(Node i : node.children())
 		{
 			dfs(i,depth + 1);

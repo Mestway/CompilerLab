@@ -6,6 +6,7 @@ public class VarVal {
 	static final String NAC = "*NAC*";
 	
 	String value;
+	String type;
 	
 	public VarVal()
 	{
