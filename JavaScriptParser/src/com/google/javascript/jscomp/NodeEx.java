@@ -18,6 +18,8 @@ public class NodeEx {
 	HashMap<Symbol, VarVal> node_value_map = new HashMap<Symbol, VarVal>();
 	STATE state;
 	
+	//lalalalalalalalalalalal
+	
 	public NodeEx(DiGraphNode<Node, Branch> nd, HashMap<Symbol, VarVal> mp)
 	{
 		node = nd;
