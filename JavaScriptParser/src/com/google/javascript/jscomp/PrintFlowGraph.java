@@ -76,7 +76,7 @@ public class PrintFlowGraph {
 		if(node == null)
 			return;
 		
-		if(node.isString())
+		//
 			emit2(node,depth);
 		
 		//emit2(node + " " + node.getClass(),depth);
