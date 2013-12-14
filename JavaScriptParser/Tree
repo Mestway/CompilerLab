@@ -1,0 +1,562 @@
+var x = 10;
+var t = "Str";
+var b = true;
+var y = 10 + 3 * x;
+var k;
+var kk2 = 326 + "str";
+
+t = y * 13 - 599;
+
+function add(x,y) {
+	if(x < 0)
+		return y;
+	else return x + y;
+}
+
+if(x < 0)
+	x = 5;
+else 
+	x = 3;
+
+for(var i = 0; i < 3; i ++)
+{
+	if(i < 2)
+  		x = x + i;
+	else {
+		x = x + 19 + y;
+		x = x * i + add(x,y);
+	}
+}
+
+var z;
+z = add(x, y);
+
+ SCRIPT 1 [synthetic: 1] [source_file: foo.js] [input_id: InputId: foo.js]
+  VAR 1 [source_file: foo.js]
+   VAR 2 [source_file: foo.js]
+    VAR 3 [source_file: foo.js]
+     VAR 4 [source_file: foo.js]
+      VAR 5 [source_file: foo.js]
+       VAR 6 [source_file: foo.js]
+        EXPR_RESULT 8 [source_file: foo.js]
+         IF 16 [source_file: foo.js]
+          BLOCK 17 [source_file: foo.js]
+           EXPR_RESULT 17 [source_file: foo.js]
+            VAR 21 [source_file: foo.js]
+             FOR 21 [source_file: foo.js]
+              BLOCK 22 [source_file: foo.js]
+               IF 23 [source_file: foo.js]
+                BLOCK 24 [source_file: foo.js]
+                 EXPR_RESULT 24 [source_file: foo.js]
+                  INC 21 [incrdecr: 1] [source_file: foo.js]
+                BLOCK 25 [source_file: foo.js]
+                 EXPR_RESULT 26 [source_file: foo.js]
+                  EXPR_RESULT 27 [source_file: foo.js]
+              VAR 31 [source_file: foo.js]
+               EXPR_RESULT 32 [source_file: foo.js]
+                null
+          BLOCK 19 [source_file: foo.js]
+           EXPR_RESULT 19 [source_file: foo.js]
+*************************************************************************
+SCRIPT 1 [synthetic: 1] [source_file: foo.js] [input_id: InputId: foo.js]
+EQUAL
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: *UNDEF* & 
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: *UNDEF* & 
+Key: kk2  ||  Value: *UNDEF* & 
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: *UNDEF* & 
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: *UNDEF* & 
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+VAR 1 [source_file: foo.js]
+38
+*UNDEF* & 
+39
+10.0
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: *UNDEF* & 
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: *UNDEF* & 
+Key: kk2  ||  Value: *UNDEF* & 
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: *UNDEF* & 
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+VAR 2 [source_file: foo.js]
+38
+*UNDEF* & 
+40
+Str
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: Str & String
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: *UNDEF* & 
+Key: kk2  ||  Value: *UNDEF* & 
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: *UNDEF* & 
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+VAR 3 [source_file: foo.js]
+38
+*UNDEF* & 
+44
+true
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: Str & String
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: *UNDEF* & 
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: *UNDEF* & 
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+VAR 4 [source_file: foo.js]
+38
+*UNDEF* & 
+21
+39
+23
+39
+38
+10.0 & 
+3.0---10.0
+40.0
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: Str & String
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: *UNDEF* & 
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+VAR 5 [source_file: foo.js]
+38
+*UNDEF* & 
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: Str & String
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: *UNDEF* & 
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+VAR 6 [source_file: foo.js]
+38
+*UNDEF* & 
+21
+39
+40
+326.0str
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: Str & String
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+EXPR_RESULT 8 [source_file: foo.js]
+LEFT*** t
+22
+23
+38
+40.0 & 
+39
+40.0---13.0
+39
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+IF 16 [source_file: foo.js]
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+BLOCK 17 [source_file: foo.js]
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+EXPR_RESULT 17 [source_file: foo.js]
+LEFT*** x
+39
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 5.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+VAR 21 [source_file: foo.js]
+38
+*UNDEF* & 
+39
+0.0
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: 5.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+FOR 21 [source_file: foo.js]
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: 5.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+BLOCK 22 [source_file: foo.js]
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: 5.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+IF 23 [source_file: foo.js]
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: 5.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+BLOCK 24 [source_file: foo.js]
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: 5.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+EXPR_RESULT 24 [source_file: foo.js]
+LEFT*** x
+21
+38
+5.0 & 
+38
+0.0 & 
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: *UNDEF* & 
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+INC 21 [incrdecr: 1] [source_file: foo.js]
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: *UNDEF* & 
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+FOR 21 [source_file: foo.js]
+EQUAL
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: 5.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+BLOCK 25 [source_file: foo.js]
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: 5.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+EXPR_RESULT 26 [source_file: foo.js]
+LEFT*** x
+21
+21
+38
+5.0 & 
+39
+38
+40.0 & 
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: 64.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+EXPR_RESULT 27 [source_file: foo.js]
+LEFT*** x
+21
+23
+38
+64.0 & 
+38
+0.0 & 
+37
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: *NAC* & String
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+INC 21 [incrdecr: 1] [source_file: foo.js]
+EQUAL
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: *NAC* & String
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+VAR 31 [source_file: foo.js]
+38
+*UNDEF* & 
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: 5.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+EXPR_RESULT 32 [source_file: foo.js]
+LEFT*** z
+37
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: NAC & UNDEF
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: 5.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+null
+*************************************************************************
+BLOCK 19 [source_file: foo.js]
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+EXPR_RESULT 19 [source_file: foo.js]
+LEFT*** x
+39
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 3.0 & number
+##################### OUT  MAP DEBUG END ####################
+*************************************************************************
+VAR 21 [source_file: foo.js]
+38
+*UNDEF* & 
+39
+0.0
+EQUAL
+##################### OUT MAP DEBUG BEGIN ##################
+Map Size: 10
+Key: t  ||  Value: -79.0 & number
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & boolean
+Key: kk2  ||  Value: 326.0str & String
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: 0.0 & number
+Key: x  ||  Value: *NAC* & number
+##################### OUT  MAP DEBUG END ####################
+

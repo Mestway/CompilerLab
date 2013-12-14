@@ -1,0 +1,498 @@
+var x = 10;
+var t = "Str";
+var b = true;
+var y = 10 + 3 * x;
+var k;
+var kk2 = 326 + "str";
+
+function add(x,y) {
+	if(x < 0)
+		return y;
+	else return x + y;
+}
+
+if(x < 0)
+	x = 5;
+else 
+	x = 3;
+
+for(var i = 0; i < 3; i ++)
+{
+	if(i < 2)
+  		x = x + i;
+	else {
+		x = x + 19 + y;
+		x = x * i + add(x,y);
+	}
+}
+
+var z;
+z = add(x, y);
+
+ SCRIPT 1 [synthetic: 1] [source_file: foo.js] [input_id: InputId: foo.js]
+ SCRIPT 1 [synthetic: 1] [source_file: foo.js] [input_id: InputId: foo.js]
+  VAR 1 [source_file: foo.js]
+   NAME x 1 [source_file: foo.js]
+    NUMBER 10.0 1 [source_file: foo.js]
+  VAR 2 [source_file: foo.js]
+   NAME t 2 [source_file: foo.js]
+    STRING Str 2 [source_file: foo.js]
+  VAR 3 [source_file: foo.js]
+   NAME b 3 [source_file: foo.js]
+    TRUE 3 [source_file: foo.js]
+  VAR 4 [source_file: foo.js]
+   NAME y 4 [source_file: foo.js]
+    ADD 4 [source_file: foo.js]
+     NUMBER 10.0 4 [source_file: foo.js]
+     MUL 4 [source_file: foo.js]
+      NUMBER 3.0 4 [source_file: foo.js]
+      NAME x 4 [source_file: foo.js]
+  VAR 5 [source_file: foo.js]
+   NAME k 5 [source_file: foo.js]
+  FUNCTION add 7 [source_file: foo.js]
+   NAME add 7 [source_file: foo.js]
+   PARAM_LIST 7 [source_file: foo.js]
+    NAME x 7 [source_file: foo.js]
+    NAME y 7 [source_file: foo.js]
+   BLOCK 7 [source_file: foo.js]
+    IF 8 [source_file: foo.js]
+     LT 8 [source_file: foo.js]
+      NAME x 8 [source_file: foo.js]
+      NUMBER 0.0 8 [source_file: foo.js]
+     BLOCK 9 [source_file: foo.js]
+      RETURN 9 [source_file: foo.js]
+       NAME y 9 [source_file: foo.js]
+     BLOCK 10 [source_file: foo.js]
+      RETURN 10 [source_file: foo.js]
+       ADD 10 [source_file: foo.js]
+        NAME x 10 [source_file: foo.js]
+        NAME y 10 [source_file: foo.js]
+  IF 13 [source_file: foo.js]
+   LT 13 [source_file: foo.js]
+    NAME x 13 [source_file: foo.js]
+    NUMBER 0.0 13 [source_file: foo.js]
+   BLOCK 14 [source_file: foo.js]
+    EXPR_RESULT 14 [source_file: foo.js]
+     ASSIGN 14 [source_file: foo.js]
+      NAME x 14 [source_file: foo.js]
+      NUMBER 5.0 14 [source_file: foo.js]
+   BLOCK 16 [source_file: foo.js]
+    EXPR_RESULT 16 [source_file: foo.js]
+     ASSIGN 16 [source_file: foo.js]
+      NAME x 16 [source_file: foo.js]
+      NUMBER 3.0 16 [source_file: foo.js]
+  FOR 18 [source_file: foo.js]
+   VAR 18 [source_file: foo.js]
+    NAME i 18 [source_file: foo.js]
+     NUMBER 0.0 18 [source_file: foo.js]
+   LT 18 [source_file: foo.js]
+    NAME i 18 [source_file: foo.js]
+    NUMBER 3.0 18 [source_file: foo.js]
+   INC 18 [incrdecr: 1] [source_file: foo.js]
+    NAME i 18 [source_file: foo.js]
+   BLOCK 19 [source_file: foo.js]
+    IF 20 [source_file: foo.js]
+     LT 20 [source_file: foo.js]
+      NAME i 20 [source_file: foo.js]
+      NUMBER 2.0 20 [source_file: foo.js]
+     BLOCK 21 [source_file: foo.js]
+      EXPR_RESULT 21 [source_file: foo.js]
+       ASSIGN 21 [source_file: foo.js]
+        NAME x 21 [source_file: foo.js]
+        ADD 21 [source_file: foo.js]
+         NAME x 21 [source_file: foo.js]
+         NAME i 21 [source_file: foo.js]
+     BLOCK 22 [source_file: foo.js]
+      EXPR_RESULT 23 [source_file: foo.js]
+       ASSIGN 23 [source_file: foo.js]
+        NAME x 23 [source_file: foo.js]
+        ADD 23 [source_file: foo.js]
+         ADD 23 [source_file: foo.js]
+          NAME x 23 [source_file: foo.js]
+          NUMBER 19.0 23 [source_file: foo.js]
+         NAME y 23 [source_file: foo.js]
+      EXPR_RESULT 24 [source_file: foo.js]
+       ASSIGN 24 [source_file: foo.js]
+        NAME x 24 [source_file: foo.js]
+        ADD 24 [source_file: foo.js]
+         MUL 24 [source_file: foo.js]
+          NAME x 24 [source_file: foo.js]
+          NAME i 24 [source_file: foo.js]
+         CALL 24 [free_call: 1] [source_file: foo.js]
+          NAME add 24 [source_file: foo.js]
+          NAME x 24 [source_file: foo.js]
+          NAME y 24 [source_file: foo.js]
+  VAR 28 [source_file: foo.js]
+   NAME z 28 [source_file: foo.js]
+  EXPR_RESULT 29 [source_file: foo.js]
+   ASSIGN 29 [source_file: foo.js]
+    NAME z 29 [source_file: foo.js]
+    CALL 29 [free_call: 1] [source_file: foo.js]
+     NAME add 29 [source_file: foo.js]
+     NAME x 29 [source_file: foo.js]
+     NAME y 29 [source_file: foo.js]
+  VAR 1 [source_file: foo.js]
+  VAR 1 [source_file: foo.js]
+   NAME x 1 [source_file: foo.js]
+    NUMBER 10.0 1 [source_file: foo.js]
+   VAR 2 [source_file: foo.js]
+   VAR 2 [source_file: foo.js]
+    NAME t 2 [source_file: foo.js]
+     STRING Str 2 [source_file: foo.js]
+    VAR 3 [source_file: foo.js]
+    VAR 3 [source_file: foo.js]
+     NAME b 3 [source_file: foo.js]
+      TRUE 3 [source_file: foo.js]
+     VAR 4 [source_file: foo.js]
+     VAR 4 [source_file: foo.js]
+      NAME y 4 [source_file: foo.js]
+       ADD 4 [source_file: foo.js]
+        NUMBER 10.0 4 [source_file: foo.js]
+        MUL 4 [source_file: foo.js]
+         NUMBER 3.0 4 [source_file: foo.js]
+         NAME x 4 [source_file: foo.js]
+      VAR 5 [source_file: foo.js]
+      VAR 5 [source_file: foo.js]
+       NAME k 5 [source_file: foo.js]
+       IF 13 [source_file: foo.js]
+       IF 13 [source_file: foo.js]
+        LT 13 [source_file: foo.js]
+         NAME x 13 [source_file: foo.js]
+         NUMBER 0.0 13 [source_file: foo.js]
+        BLOCK 14 [source_file: foo.js]
+         EXPR_RESULT 14 [source_file: foo.js]
+          ASSIGN 14 [source_file: foo.js]
+           NAME x 14 [source_file: foo.js]
+           NUMBER 5.0 14 [source_file: foo.js]
+        BLOCK 16 [source_file: foo.js]
+         EXPR_RESULT 16 [source_file: foo.js]
+          ASSIGN 16 [source_file: foo.js]
+           NAME x 16 [source_file: foo.js]
+           NUMBER 3.0 16 [source_file: foo.js]
+        BLOCK 14 [source_file: foo.js]
+        BLOCK 14 [source_file: foo.js]
+         EXPR_RESULT 14 [source_file: foo.js]
+          ASSIGN 14 [source_file: foo.js]
+           NAME x 14 [source_file: foo.js]
+           NUMBER 5.0 14 [source_file: foo.js]
+         EXPR_RESULT 14 [source_file: foo.js]
+         EXPR_RESULT 14 [source_file: foo.js]
+          ASSIGN 14 [source_file: foo.js]
+           NAME x 14 [source_file: foo.js]
+           NUMBER 5.0 14 [source_file: foo.js]
+          VAR 18 [source_file: foo.js]
+          VAR 18 [source_file: foo.js]
+           NAME i 18 [source_file: foo.js]
+            NUMBER 0.0 18 [source_file: foo.js]
+           FOR 18 [source_file: foo.js]
+           FOR 18 [source_file: foo.js]
+            VAR 18 [source_file: foo.js]
+             NAME i 18 [source_file: foo.js]
+              NUMBER 0.0 18 [source_file: foo.js]
+            LT 18 [source_file: foo.js]
+             NAME i 18 [source_file: foo.js]
+             NUMBER 3.0 18 [source_file: foo.js]
+            INC 18 [incrdecr: 1] [source_file: foo.js]
+             NAME i 18 [source_file: foo.js]
+            BLOCK 19 [source_file: foo.js]
+             IF 20 [source_file: foo.js]
+              LT 20 [source_file: foo.js]
+               NAME i 20 [source_file: foo.js]
+               NUMBER 2.0 20 [source_file: foo.js]
+              BLOCK 21 [source_file: foo.js]
+               EXPR_RESULT 21 [source_file: foo.js]
+                ASSIGN 21 [source_file: foo.js]
+                 NAME x 21 [source_file: foo.js]
+                 ADD 21 [source_file: foo.js]
+                  NAME x 21 [source_file: foo.js]
+                  NAME i 21 [source_file: foo.js]
+              BLOCK 22 [source_file: foo.js]
+               EXPR_RESULT 23 [source_file: foo.js]
+                ASSIGN 23 [source_file: foo.js]
+                 NAME x 23 [source_file: foo.js]
+                 ADD 23 [source_file: foo.js]
+                  ADD 23 [source_file: foo.js]
+                   NAME x 23 [source_file: foo.js]
+                   NUMBER 19.0 23 [source_file: foo.js]
+                  NAME y 23 [source_file: foo.js]
+               EXPR_RESULT 24 [source_file: foo.js]
+                ASSIGN 24 [source_file: foo.js]
+                 NAME x 24 [source_file: foo.js]
+                 ADD 24 [source_file: foo.js]
+                  MUL 24 [source_file: foo.js]
+                   NAME x 24 [source_file: foo.js]
+                   NAME i 24 [source_file: foo.js]
+                  CALL 24 [free_call: 1] [source_file: foo.js]
+                   NAME add 24 [source_file: foo.js]
+                   NAME x 24 [source_file: foo.js]
+                   NAME y 24 [source_file: foo.js]
+            BLOCK 19 [source_file: foo.js]
+            BLOCK 19 [source_file: foo.js]
+             IF 20 [source_file: foo.js]
+              LT 20 [source_file: foo.js]
+               NAME i 20 [source_file: foo.js]
+               NUMBER 2.0 20 [source_file: foo.js]
+              BLOCK 21 [source_file: foo.js]
+               EXPR_RESULT 21 [source_file: foo.js]
+                ASSIGN 21 [source_file: foo.js]
+                 NAME x 21 [source_file: foo.js]
+                 ADD 21 [source_file: foo.js]
+                  NAME x 21 [source_file: foo.js]
+                  NAME i 21 [source_file: foo.js]
+              BLOCK 22 [source_file: foo.js]
+               EXPR_RESULT 23 [source_file: foo.js]
+                ASSIGN 23 [source_file: foo.js]
+                 NAME x 23 [source_file: foo.js]
+                 ADD 23 [source_file: foo.js]
+                  ADD 23 [source_file: foo.js]
+                   NAME x 23 [source_file: foo.js]
+                   NUMBER 19.0 23 [source_file: foo.js]
+                  NAME y 23 [source_file: foo.js]
+               EXPR_RESULT 24 [source_file: foo.js]
+                ASSIGN 24 [source_file: foo.js]
+                 NAME x 24 [source_file: foo.js]
+                 ADD 24 [source_file: foo.js]
+                  MUL 24 [source_file: foo.js]
+                   NAME x 24 [source_file: foo.js]
+                   NAME i 24 [source_file: foo.js]
+                  CALL 24 [free_call: 1] [source_file: foo.js]
+                   NAME add 24 [source_file: foo.js]
+                   NAME x 24 [source_file: foo.js]
+                   NAME y 24 [source_file: foo.js]
+             IF 20 [source_file: foo.js]
+             IF 20 [source_file: foo.js]
+              LT 20 [source_file: foo.js]
+               NAME i 20 [source_file: foo.js]
+               NUMBER 2.0 20 [source_file: foo.js]
+              BLOCK 21 [source_file: foo.js]
+               EXPR_RESULT 21 [source_file: foo.js]
+                ASSIGN 21 [source_file: foo.js]
+                 NAME x 21 [source_file: foo.js]
+                 ADD 21 [source_file: foo.js]
+                  NAME x 21 [source_file: foo.js]
+                  NAME i 21 [source_file: foo.js]
+              BLOCK 22 [source_file: foo.js]
+               EXPR_RESULT 23 [source_file: foo.js]
+                ASSIGN 23 [source_file: foo.js]
+                 NAME x 23 [source_file: foo.js]
+                 ADD 23 [source_file: foo.js]
+                  ADD 23 [source_file: foo.js]
+                   NAME x 23 [source_file: foo.js]
+                   NUMBER 19.0 23 [source_file: foo.js]
+                  NAME y 23 [source_file: foo.js]
+               EXPR_RESULT 24 [source_file: foo.js]
+                ASSIGN 24 [source_file: foo.js]
+                 NAME x 24 [source_file: foo.js]
+                 ADD 24 [source_file: foo.js]
+                  MUL 24 [source_file: foo.js]
+                   NAME x 24 [source_file: foo.js]
+                   NAME i 24 [source_file: foo.js]
+                  CALL 24 [free_call: 1] [source_file: foo.js]
+                   NAME add 24 [source_file: foo.js]
+                   NAME x 24 [source_file: foo.js]
+                   NAME y 24 [source_file: foo.js]
+              BLOCK 21 [source_file: foo.js]
+              BLOCK 21 [source_file: foo.js]
+               EXPR_RESULT 21 [source_file: foo.js]
+                ASSIGN 21 [source_file: foo.js]
+                 NAME x 21 [source_file: foo.js]
+                 ADD 21 [source_file: foo.js]
+                  NAME x 21 [source_file: foo.js]
+                  NAME i 21 [source_file: foo.js]
+               EXPR_RESULT 21 [source_file: foo.js]
+               EXPR_RESULT 21 [source_file: foo.js]
+                ASSIGN 21 [source_file: foo.js]
+                 NAME x 21 [source_file: foo.js]
+                 ADD 21 [source_file: foo.js]
+                  NAME x 21 [source_file: foo.js]
+                  NAME i 21 [source_file: foo.js]
+                INC 18 [incrdecr: 1] [source_file: foo.js]
+                INC 18 [incrdecr: 1] [source_file: foo.js]
+                 NAME i 18 [source_file: foo.js]
+              BLOCK 22 [source_file: foo.js]
+              BLOCK 22 [source_file: foo.js]
+               EXPR_RESULT 23 [source_file: foo.js]
+                ASSIGN 23 [source_file: foo.js]
+                 NAME x 23 [source_file: foo.js]
+                 ADD 23 [source_file: foo.js]
+                  ADD 23 [source_file: foo.js]
+                   NAME x 23 [source_file: foo.js]
+                   NUMBER 19.0 23 [source_file: foo.js]
+                  NAME y 23 [source_file: foo.js]
+               EXPR_RESULT 24 [source_file: foo.js]
+                ASSIGN 24 [source_file: foo.js]
+                 NAME x 24 [source_file: foo.js]
+                 ADD 24 [source_file: foo.js]
+                  MUL 24 [source_file: foo.js]
+                   NAME x 24 [source_file: foo.js]
+                   NAME i 24 [source_file: foo.js]
+                  CALL 24 [free_call: 1] [source_file: foo.js]
+                   NAME add 24 [source_file: foo.js]
+                   NAME x 24 [source_file: foo.js]
+                   NAME y 24 [source_file: foo.js]
+               EXPR_RESULT 23 [source_file: foo.js]
+               EXPR_RESULT 23 [source_file: foo.js]
+                ASSIGN 23 [source_file: foo.js]
+                 NAME x 23 [source_file: foo.js]
+                 ADD 23 [source_file: foo.js]
+                  ADD 23 [source_file: foo.js]
+                   NAME x 23 [source_file: foo.js]
+                   NUMBER 19.0 23 [source_file: foo.js]
+                  NAME y 23 [source_file: foo.js]
+                EXPR_RESULT 24 [source_file: foo.js]
+                EXPR_RESULT 24 [source_file: foo.js]
+                 ASSIGN 24 [source_file: foo.js]
+                  NAME x 24 [source_file: foo.js]
+                  ADD 24 [source_file: foo.js]
+                   MUL 24 [source_file: foo.js]
+                    NAME x 24 [source_file: foo.js]
+                    NAME i 24 [source_file: foo.js]
+                   CALL 24 [free_call: 1] [source_file: foo.js]
+                    NAME add 24 [source_file: foo.js]
+                    NAME x 24 [source_file: foo.js]
+                    NAME y 24 [source_file: foo.js]
+            VAR 28 [source_file: foo.js]
+            VAR 28 [source_file: foo.js]
+             NAME z 28 [source_file: foo.js]
+             EXPR_RESULT 29 [source_file: foo.js]
+             EXPR_RESULT 29 [source_file: foo.js]
+              ASSIGN 29 [source_file: foo.js]
+               NAME z 29 [source_file: foo.js]
+               CALL 29 [free_call: 1] [source_file: foo.js]
+                NAME add 29 [source_file: foo.js]
+                NAME x 29 [source_file: foo.js]
+                NAME y 29 [source_file: foo.js]
+              null
+        BLOCK 16 [source_file: foo.js]
+        BLOCK 16 [source_file: foo.js]
+         EXPR_RESULT 16 [source_file: foo.js]
+          ASSIGN 16 [source_file: foo.js]
+           NAME x 16 [source_file: foo.js]
+           NUMBER 3.0 16 [source_file: foo.js]
+         EXPR_RESULT 16 [source_file: foo.js]
+         EXPR_RESULT 16 [source_file: foo.js]
+          ASSIGN 16 [source_file: foo.js]
+           NAME x 16 [source_file: foo.js]
+           NUMBER 3.0 16 [source_file: foo.js]
+*************************************************************************
+EQUAL
+##################### IN MAP DEBUG BEGIN ##################
+Map Size: 9
+Key: t  ||  Value: *UNDEF* & 
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: *UNDEF* & 
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: *UNDEF* & 
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: *UNDEF* & 
+##################### IN  MAP DEBUG END ####################
+*************************************************************************
+38
+*UNDEF* & 
+39
+163: 10.0
+10.0
+##################### IN MAP DEBUG BEGIN ##################
+Map Size: 9
+Key: t  ||  Value: *UNDEF* & 
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: *UNDEF* & 
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: *UNDEF* & 
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: *UNDEF* & 
+##################### IN  MAP DEBUG END ####################
+*************************************************************************
+38
+*UNDEF* & 
+40
+174: Str
+Str
+##################### IN MAP DEBUG BEGIN ##################
+Map Size: 9
+Key: t  ||  Value: *UNDEF* & 
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: *UNDEF* & 
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: *UNDEF* & 
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### IN  MAP DEBUG END ####################
+*************************************************************************
+38
+*UNDEF* & 
+44
+183: true
+true
+##################### IN MAP DEBUG BEGIN ##################
+Map Size: 9
+Key: t  ||  Value: Str & String
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: *UNDEF* & 
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: *UNDEF* & 
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### IN  MAP DEBUG END ####################
+*************************************************************************
+38
+*UNDEF* & 
+21
+39
+163: 10.0
+23
+39
+163: 3.0
+38
+10.0 & 
+40.0
+##################### IN MAP DEBUG BEGIN ##################
+Map Size: 9
+Key: t  ||  Value: Str & String
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & Boolean
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: *UNDEF* & 
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### IN  MAP DEBUG END ####################
+*************************************************************************
+38
+*UNDEF* & 
+##################### IN MAP DEBUG BEGIN ##################
+Map Size: 9
+Key: t  ||  Value: Str & String
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & Boolean
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### IN  MAP DEBUG END ####################
+*************************************************************************
+EQUAL
+##################### IN MAP DEBUG BEGIN ##################
+Map Size: 9
+Key: t  ||  Value: Str & String
+Key: *global*  ||  Value: *UNDEF* & 
+Key: b  ||  Value: true & Boolean
+Key: add  ||  Value: *UNDEF* & 
+Key: z  ||  Value: *UNDEF* & 
+Key: k  ||  Value: *UNDEF* & 
+Key: y  ||  Value: 40.0 & number
+Key: i  ||  Value: *UNDEF* & 
+Key: x  ||  Value: 10.0 & number
+##################### IN  MAP DEBUG END ####################
+

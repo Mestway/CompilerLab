@@ -1,0 +1,11 @@
+asdlkajsdzxcioi Hello World
+
+<<<<<<< HEAD
+
+我现在确定的类型全都是固定类型，一些问题没想出怎么办：
+(1)结点中getDouble会把一个number转换成Double类型。
+(2)结点中
+
+=======
+The egit-tutorial : http://www.vogella.com/articles/EclipseGit/article.html#clone_respository
+>>>>>>> 5e2d558c1b543833571accdcab11c93519bd8387

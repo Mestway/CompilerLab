@@ -74,7 +74,12 @@ public class PrintFlowGraph {
 		if(node == null)
 			return;
 		
+<<<<<<< HEAD
 		//emit2(node,depth);
+=======
+		emit2(node,depth);
+		
+>>>>>>> d30c81946aefa9ebe876f023db0211fee2f942f2
 		//emit2(node + " " + node.getClass(),depth);
 		
 		for(Node i : node.children())
