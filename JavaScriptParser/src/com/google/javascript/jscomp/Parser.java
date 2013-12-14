@@ -65,6 +65,5 @@ public class Parser {
 		ConstantPropagation cpf = new ConstantPropagation();
 		cpf.init(cfg, symbol_table);
 		cpf.process();
-		System.exit(0);
 	}
 }

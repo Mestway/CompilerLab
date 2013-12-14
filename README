@@ -1,18 +1,12 @@
 asdlkajsdzxcioi Hello World
 
 <<<<<<< HEAD
-你需要完成代码生成的工作：
 
-输入：AST，给定一颗树，输入根结点DiGraphNode<Node,Branch> root.
+我现在确定的类型全都是固定类型，一些问题没想出怎么办：
+(1)结点中getDouble会把一个number转换成Double类型--> x = 3会变成x=3.0。
+(2)类型还有点问题没解决
+(3)有一些语句还没有处理
 
-输出：生成的javascript代码
-
-Note: 这个步骤只要直接输出就好，暂时不用处理太多类型的结点，SCRIPT, ADD, VAR, IF, BLOCK,FOR,EXPR_RESULT结点，
-其他的结点根据后面完成进度继续处理。
-
-应该不会太复杂，现在我们不考虑删除子图，仅仅是完成一遍常量传播之后替换变量为常量直接输出。
-
-估计全速完成时间：3h 30min
 =======
 The egit-tutorial : http://www.vogella.com/articles/EclipseGit/article.html#clone_respository
 >>>>>>> 5e2d558c1b543833571accdcab11c93519bd8387
