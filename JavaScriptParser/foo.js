@@ -1,5 +1,6 @@
 var x = 10;
 var t = "Str";
+var b = true;
 var y = 10 + 3 * x;
 var k;
 

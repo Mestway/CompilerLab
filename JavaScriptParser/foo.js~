@@ -1,6 +1,8 @@
 var x = 10;
 var t = "Str";
+var b = boolean;
 var y = 10 + 3 * x;
+var k;
 
 function add(x,y) {
 	if(x < 0)
