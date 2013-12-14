@@ -1,17 +1,21 @@
 package com.google.javascript.jscomp;
 
+import java.util.HashMap;
+
 public class VarVal {
 	
 	static final String UNDEF = "*UNDEF*";
 	static final String NAC = "*NAC*";
 	static final String NOTSTART = "*NOTSTART*";
 	
-	String value;
-	String type;
+	private String name;
+	private String value;
+	private String type ;
 	
-	public VarVal()
+	public VarVal(String _name)
 	{
-		value = NOTSTART;
+		name = _name;
+		value = UNDEF;
 		type = new String();
 	}
 	
@@ -24,6 +28,7 @@ public class VarVal {
 	public void init()
 	{
 		value = UNDEF;
+		type = UNDEF;
 	}
 	
 	public String getValue() 
@@ -31,20 +36,51 @@ public class VarVal {
 		return value;
 	}
 	
+	public String getType()
+	{
+		return type;
+	}
+	public String getName()
+	{
+		return name;
+	}
 	public void setValue(String _value) 
 	{
 		value = _value;
 	}
 	
-	public void mergeValue(String _value) 
+	public void setType(String _type)
 	{
-		if(_value.equals(value))
+		type = _type;
+	}
+	
+	public void merge(VarVal _value) 
+	{
+		if(value.equals(NOTSTART))
+		{
+			value = UNDEF;
+		}
+		
+		if(_value.value.equals(value))
 			return;
 		
-		if(_value.equals(UNDEF))
+		if(_value.value.equals(UNDEF))
 			return;
 		
 		value = NAC;
 		return;
+	}
+	
+	public final boolean equals(Object o)
+	{
+		if(o.getClass().equals(this.getClass()))
+			return false;
+		
+		return (((VarVal)o).name.equals(this.name) && ((VarVal)o).value.equals(this.value));
+	}
+	
+	public final String toString()
+	{
+		return value.toString() + " & " + type.toString();
 	}
 }
