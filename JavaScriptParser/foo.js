@@ -3,6 +3,9 @@ var t = "Str";
 var b = true;
 var y = 10 + 3 * x;
 var k;
+var kk2 = 326 + "str";
+
+t = y * 13 - 599;
 
 function add(x,y) {
 	if(x < 0)

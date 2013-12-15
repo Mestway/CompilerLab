@@ -3,10 +3,8 @@ package com.google.javascript.jscomp;
 import java.util.HashSet;
 
 import com.google.javascript.jscomp.ControlFlowGraph.Branch;
-import com.google.javascript.jscomp.graph.DiGraph;
 import com.google.javascript.jscomp.graph.DiGraph.DiGraphEdge;
 import com.google.javascript.jscomp.graph.DiGraph.DiGraphNode;
-import com.google.javascript.jscomp.graph.GraphNode;
 import com.google.javascript.rhino.Node;
 
 public class PrintFlowGraph {
@@ -53,7 +51,7 @@ public class PrintFlowGraph {
 			int t = 0;
 			for(Node i : node.getValue().siblings())
 			{
-				t ++;
+				t = t + 1;
 			}
 			//emit("number of siblings: " + t);
 		}
@@ -76,9 +74,14 @@ public class PrintFlowGraph {
 		if(node == null)
 			return;
 		
+<<<<<<< HEAD
+		//emit2(node,depth);
+=======
 		emit2(node,depth);
 		
+>>>>>>> d30c81946aefa9ebe876f023db0211fee2f942f2
 		//emit2(node + " " + node.getClass(),depth);
+		
 		for(Node i : node.children())
 		{
 			dfs(i,depth + 1);

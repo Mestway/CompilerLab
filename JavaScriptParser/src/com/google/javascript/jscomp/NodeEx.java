@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.google.javascript.jscomp.ControlFlowGraph.Branch;
-import com.google.javascript.jscomp.SymbolTable.Symbol;
 import com.google.javascript.jscomp.graph.DiGraph.DiGraphNode;
 import com.google.javascript.rhino.Node;
 
@@ -22,21 +21,37 @@ public class NodeEx {
 	public NodeEx(DiGraphNode<Node, Branch> nd, HashMap<String, VarVal> in_mp, HashMap<String, VarVal> out_mp)
 	{
 		node = nd;
-		in_map = in_mp;
-		out_map = out_mp;
+		
+		for(Entry<String, VarVal> i : in_mp.entrySet())
+		{
+			in_map.put(i.getKey(), new VarVal(i.getValue()));
+		}
+		for(Entry<String, VarVal> i : out_mp.entrySet())
+		{
+			out_map.put(i.getKey(), i.getValue());
+		}
+
 		state = STATE.UNSTABLE;
 	}
 	public DiGraphNode<Node,Branch> getNode()
 	{
 		return node;
 	}
-	public void setOutMap(HashMap<String, VarVal> map)
+	public void setOutMap(HashMap<String, VarVal> out_mp)
 	{
-		out_map = map;
+		out_map.clear();
+		for(Entry<String, VarVal> i : out_mp.entrySet())
+		{
+			out_map.put(i.getKey(), i.getValue());
+		}
 	}
-	public void setInMap(HashMap<String, VarVal> map)
+	public void setInMap(HashMap<String, VarVal> in_mp)
 	{
-		in_map = map;
+		in_map.clear();;
+		for(Entry<String, VarVal> i : in_mp.entrySet())
+		{
+			in_map.put(i.getKey(), new VarVal(i.getValue()));
+		}
 	}
 	public void setState(STATE st)
 	{
@@ -84,6 +99,10 @@ public class NodeEx {
 		else if(this.getNode().getValue().isVar())
 		{
 			return GraphNodeType.WH_VAR;
+		}
+		else if(this.getNode().getValue().isExprResult())
+		{
+			return GraphNodeType.WH_EXPR_RESULT;
 		}
 		else return GraphNodeType.WH_PANIC;
 	}

@@ -3,9 +3,8 @@ asdlkajsdzxcioi Hello World
 <<<<<<< HEAD
 
 我现在确定的类型全都是固定类型，一些问题没想出怎么办：
-(1)结点中getDouble会把一个number转换成Double类型--> x = 3会变成x=3.0。
-(2)类型还有点问题没解决
-(3)有一些语句还没有处理
+(1)结点中getDouble会把一个number转换成Double类型。
+(2)结点中
 
 =======
 The egit-tutorial : http://www.vogella.com/articles/EclipseGit/article.html#clone_respository
