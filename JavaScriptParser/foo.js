@@ -5,12 +5,29 @@ var y = 10 + 3 * x;
 var k;
 var kk2 = 326 + "str";
 
-t = y * 13 - 599;
+t++;
 
-function add(x,y) {
-	if(x < 0)
-		return y;
-	else return x + y;
+t = y * 3 - 2;
+t--;
+
+var i = 0;
+
+i++;
+
+while(i < x)
+{
+	y = y + 1;
+	kk2 = true;
+	i ++;
+}
+
+function add(x1,y1) {
+	var c = x1;
+	var d = y1;
+
+	if(x1 < 0)
+		return y1;
+	else return c + d;
 }
 
 if(x < 0)

@@ -27,7 +27,7 @@ public class PrintFlowGraph {
 		System.out.println(blank + str);
 	}
 	
-	public void emit2(Object str, int depth)
+	public static void emit2(Object str, int depth)
 	{
 		String blank = " ";
 		for(int i = 0; i < depth ; i ++)
@@ -46,16 +46,6 @@ public class PrintFlowGraph {
 		emit(node.getValue());
 		dfs(node.getValue(), emit_num);
 		
-		if(node.getValue() != null)
-		{	
-			int t = 0;
-			for(Node i : node.getValue().siblings())
-			{
-				t = t + 1;
-			}
-			//emit("number of siblings: " + t);
-		}
-		
 		node_set.add(node);
 		for(DiGraphEdge<Node, Branch> i : node.getOutEdges())
 		{
@@ -69,17 +59,12 @@ public class PrintFlowGraph {
 		}
 	}
 	
-	public void dfs(Node node, int depth)
+	public static void dfs(Node node, int depth)
 	{
 		if(node == null)
 			return;
 		
-<<<<<<< HEAD
 		//emit2(node,depth);
-=======
-		emit2(node,depth);
-		
->>>>>>> d30c81946aefa9ebe876f023db0211fee2f942f2
 		//emit2(node + " " + node.getClass(),depth);
 		
 		for(Node i : node.children())

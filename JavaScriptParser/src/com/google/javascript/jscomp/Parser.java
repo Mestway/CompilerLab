@@ -11,7 +11,7 @@ public class Parser {
 	
 	private static final String EXTERNS = "";
 	
-    static SourceFile fromEmptyCode() { // TODO: why is this method needed??
+    static SourceFile fromEmptyCode() { 
             return fromCode("", new String("dummy.js"));
     }
     
@@ -24,7 +24,6 @@ public class Parser {
 		File file = new File("foo.js");
 	
 		SourceFile src = SourceFile.fromFile(file);
-		//System.out.println(src.getName());
 		
 		JsAst js = new JsAst(src);
 		System.out.println(src.getCode());
@@ -38,9 +37,6 @@ public class Parser {
 		cfgPass.process(null, js.getAstRoot(compiler));
 		ControlFlowGraph<Node> cfg = cfgPass.getCfg();
 		
-		//System.out.println(cfg.getEntry().getValue());
-		//System.out.println(cfg.getEntry().getOutEdges().get(0).getClass());
-		
 		PrintFlowGraph pfg = new PrintFlowGraph(cfg);
 		pfg.RecursivePrintGraph(cfg);
 		
@@ -50,20 +46,8 @@ public class Parser {
 		compiler.compile(externs, inputs, options);
 		SymbolTable symbol_table = compiler.buildKnownSymbolTable();
 		
-		/*for(Symbol i : symbol_table.getAllSymbols())
-		{
-			if(!i.inExterns())
-			{	
-				System.err.println(i);
-			}
-		}
-		for(SymbolScope i : symbol_table.getAllScopes())
-		{
-			System.out.println(i.getSymbolForScope() + i.toString());
-		}*/
-		
 		ConstantPropagation cpf = new ConstantPropagation();
-		cpf.init(cfg, symbol_table);
+		cpf.init(cfg, symbol_table, src);
 		cpf.process();
 	}
 }

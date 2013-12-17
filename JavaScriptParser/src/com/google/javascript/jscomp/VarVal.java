@@ -15,26 +15,23 @@ public class VarVal {
 	{
 		name = _name;
 		value = UNDEF;
-		type = new String();
+		type = UNDEF;
 	}
-	
 	public VarVal(VarVal v)
 	{
 		value = new String(v.value);
 		type = new String(v.type);
+		name = new String(v.name);
 	}
-	
 	public void init()
 	{
 		value = UNDEF;
 		type = UNDEF;
 	}
-	
 	public String getValue() 
 	{
 		return value;
 	}
-	
 	public String getType()
 	{
 		return type;
@@ -57,23 +54,34 @@ public class VarVal {
 		type = _type;
 	}
 	
-	public void merge(VarVal _value) 
+	public String merge(VarVal _value) 
 	{	
+		String ret = "";
+		
+		if(this.type.equals(UNDEF) || _value.type.equals(UNDEF))
+		{
+			this.type = this.type.equals(UNDEF) ? _value.type : this.type;
+		}
+		else if(! this.type.equals(_value.type))
+		{
+			ret = "Type Conflict: " + this.type + " " + _value.type;
+		}
+		
 		if(this.value.equals(UNDEF))
 		{
 			value = _value.getValue();
 			type = _value.getType();
-			return;
+			return ret;
 		}
 		
 		if(_value.value.equals(value))
-			return;
+			return ret;
 		
 		if(_value.value.equals(UNDEF))
-			return;
+			return ret;
 		
 		value = NAC;
-		return;
+		return ret;
 	}
 	
 	public final boolean equals(Object o)
@@ -95,8 +103,10 @@ public class VarVal {
 		
 		ret.type = type_cmp(v1.type, v2.type);
 		
-		if(v1.getValue().equals("NAC") || v2.getValue().equals("NAC"))
+		if(v1.getValue().equals(NAC) || v2.getValue().equals(NAC))
+		{	
 			ret.value = NAC;
+		}
 		else
 		{
 			if(token == Token.ADD)
@@ -118,6 +128,7 @@ public class VarVal {
 					Integer tempDouble = WH_parse_boolean(v1.value) + WH_parse_boolean(v2.value);
 					ret.value = tempDouble.toString();
 				}
+				
 			}
 			else if(token == Token.MUL)
 			{
@@ -127,7 +138,6 @@ public class VarVal {
 					t1 = (v1.type == "boolean") ? WH_parse_boolean(v1.value).toString() : v1.value;
 					t2 = (v2.type == "boolean") ? WH_parse_boolean(v2.value).toString() : v2.value;
 					
-					System.out.println(t1 + "---" + t2);
 					Double tempDouble = (Double.parseDouble(t1) * Double.parseDouble(t2));
 					ret.value = tempDouble.toString();
 				}
@@ -142,6 +152,7 @@ public class VarVal {
 					ret.value = "NaN";
 					ret.type = "String";
 				}
+				
 			}
 			else if(token == Token.SUB)
 			{
@@ -163,6 +174,21 @@ public class VarVal {
 					ret.value = tempDouble.toString();
 				}
 			}
+		}
+		
+		if(! ret.type.equals(UNDEF))
+		{
+			if(v1.type.equals(UNDEF))
+				v1.type = v2.type;
+			if(v2.type.equals(UNDEF))
+				v2.type = v1.type;
+			
+			ret.type = type_cmp(v1.type,v2.type);
+		}
+		else {
+			v1.type = "number";
+			v2.type = "number";
+			ret.type = "number";
 		}
 		
 		return ret;

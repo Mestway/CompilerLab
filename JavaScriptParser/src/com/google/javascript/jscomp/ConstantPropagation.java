@@ -1,8 +1,7 @@
 package com.google.javascript.jscomp;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map.Entry;
 
 import com.google.javascript.jscomp.ControlFlowGraph.Branch;
@@ -15,18 +14,42 @@ import com.google.javascript.rhino.Token;
 
 public class ConstantPropagation {
 	
+	private Boolean PrintCFG = true;
+	private SourceFile src_code;
 	private ControlFlowGraph<Node> cfg;
-	
 	private HashMap<DiGraphNode<Node,Branch>, NodeEx> node_map = new HashMap<DiGraphNode<Node,Branch>, NodeEx>();
-	
 	private HashMap<String, VarVal> init_map = new HashMap<String, VarVal>();
-	
+	private HashMap<String, FuncVal> functions = new HashMap<String, FuncVal>();
 	private SymbolTable symbolTable;
 	
-	public void init(ControlFlowGraph<Node> _cfg, SymbolTable _symbolTable)
+	private VarVal returnVal = new VarVal("ret");
+	private Boolean Start_Flag;
+	
+	public void process()
+	{			
+		DiGraphNode<Node,Branch> entry_node = cfg.getEntry();
+		initNodeMap(entry_node);
+		
+		//while(NodeEx.map_equal(init_map, ))
+		computeMap(init_map,node_map.get(entry_node));
+		
+		if(PrintCFG) {
+			NodeEx.BOOLEAN_PRINT = true;
+			traverse_cfg(cfg.getEntry());
+		}
+	}
+	
+	public void set_init_map(HashMap<String, VarVal> new_init)
 	{
+		init_map = copyMap(new_init);
+	}
+	
+	public void init(ControlFlowGraph<Node> _cfg, SymbolTable _symbolTable, SourceFile src)
+	{
+		Start_Flag = true;
 		cfg = _cfg;
 		symbolTable = _symbolTable;
+		src_code = src;
 		for(Symbol i : symbolTable.getAllSymbols())
 		{
 			init_map.put(i.getName(), new VarVal(i.getName()));
@@ -49,12 +72,10 @@ public class ConstantPropagation {
 	
 	public void computeMap(HashMap<String, VarVal> new_input, NodeEx node)
 	{	
-		System.out.println("*************************************************************************");
-		EMIT(node.getNode().getValue());
-		//HashMap<String, VarVal> cpMap = copyMap(node.getOutMap());
-		
 		if(node.getNode().getValue() == null)
+		{	
 			return;
+		}
 		
 		if(!node.getNode().getValue().isScript())
 			node.merge_in_map(new_input);
@@ -64,18 +85,22 @@ public class ConstantPropagation {
 		{
 			cpMap.put(i.getKey(), i.getValue());
 		}
-		//node.DEBUG_MAP(true);
 		
 		switch(node.getTreeNodeType()) {
 		case WH_SCRIPT:
-			ScriptInit(cpMap);
+			Process_Script_Node(cpMap, node);
 			break;
 		case WH_VAR:
 			VAR_Handler(node, node.getInMap(),cpMap);
-			//System.out.println("Some Nodes: " + node.getNode().getValue());
 			break;
 		case WH_EXPR_RESULT:
 			EXPR_RESULT_Handler(node, node.getInMap(),cpMap);
+			break;
+		case WH_RETURN:
+			RETURN_Handler(node, node.getInMap(), cpMap);
+			break;
+		case WH_FUNCTION:
+			FUNCTION_Handler(node, node.getInMap(), cpMap);
 			break;
 		default:
 			;
@@ -83,21 +108,17 @@ public class ConstantPropagation {
 		
 		if(node.map_equal(false,cpMap))
 		{
-			System.out.println("EQUAL");
 			node.setState(STATE.STABLE);
 		}
 		else 
 		{
+			Start_Flag = false;
 			node.setOutMap(cpMap);
 		}
 		node.DEBUG_MAP(false);
-		//node.DEBUG_MAP(false);
 		
-		if(!node_map.get(node.getNode()).getState().equals(STATE.STABLE) || node.getNode().getValue().isScript())
+		if(!node_map.get(node.getNode()).getState().equals(STATE.STABLE) || Start_Flag)
 		{
-			
-			List<DiGraphEdge<Node, Branch>> t = node.getNode().getOutEdges();
-			
 			for(DiGraphEdge<Node, Branch> i : node.getNode().getOutEdges())
 			{
 				DiGraphNode<Node, Branch> tempNode = i.getDestination();
@@ -106,23 +127,33 @@ public class ConstantPropagation {
 		}
 	}
 
-	private void ScriptInit(HashMap<String, VarVal> newMap) 
-	{
-		for(Entry<String, VarVal> i : newMap.entrySet())
+	private void FUNCTION_Handler(NodeEx node, HashMap<String, VarVal> inMap,
+			HashMap<String, VarVal> cpMap) {
+		// TODO Auto-generated method stub
+		
+		Node f_node = node.getNode().getValue();
+		
+		for(Node i : f_node.children())
 		{
-			i.getValue().init();
-			//System.err.println(i.getKey() + " " + i.getValue().getValue());
+			if(i.isParamList())
+			{
+				for(Node j : i.children())
+				{
+					cpMap.get(j.getString()).setValue(VarVal.NAC);
+				}
+			}
 		}
 	}
 
-	public void process()
-	{
-		DiGraphNode<Node,Branch> entry_node = cfg.getEntry();
-		initNodeMap(entry_node);
-		computeMap(init_map,node_map.get(entry_node));
+	private void RETURN_Handler(NodeEx node, HashMap<String, VarVal> inMap,
+			HashMap<String, VarVal> cpMap) {
+			VarVal output = dfs(getFirstChild(node.getNode().getValue()), inMap, cpMap);
+			System.out.println("T_T " + output);
+			returnVal = output;
 	}
-	
-	private HashMap<String, VarVal> copyMap(HashMap<String, VarVal> src )
+
+	@SuppressWarnings("unused")
+	private HashMap<String, VarVal> copyMap(HashMap<String, VarVal> src)
 	{
 		HashMap<String, VarVal> dst = new HashMap<String, VarVal>();
 		
@@ -150,28 +181,23 @@ public class ConstantPropagation {
 		}
 	}
 	
+	private void Process_Script_Node(HashMap<String, VarVal> newMap, NodeEx script_node) 
+	{
+		for(Entry<String, VarVal> i : newMap.entrySet())
+		{
+			i.getValue().init();
+		}
+		process_function(script_node);
+	}
+	
 	private void EXPR_RESULT_Handler(NodeEx node, HashMap<String, VarVal> input, HashMap<String, VarVal> newMap)
 	{
-		Node assign = new Node(Token.ASSIGN);
-		for(Node name : node.getNode().getValue().children())
+		VarVal var = new VarVal("temp");
+		for(Node child : node.getNode().getValue().children())
 		{
-			assign = name;
-			break;
+			var = dfs(child, input, newMap);
 		}
-		int cnt = 0;
-		Node left = null, right = null;
-		for(Node i : assign.children())
-		{
-			if(cnt == 0)
-				left = i;
-			else 
-				right = i;
-			cnt ++;
-		}
-		System.out.println("LEFT*** " + left.getQualifiedName());
 		
-		VarVal var = dfs(right,input,newMap);
-		var.setName(left.getQualifiedName());
 		if(!newMap.get(var.getName()).equals(var));
 		{
 			newMap.put(var.getName(), var);
@@ -180,24 +206,64 @@ public class ConstantPropagation {
 
 	private VarVal dfs(Node node, HashMap<String, VarVal> input,HashMap<String, VarVal> cur_map)
 	{
-		EMIT(node.getType());
 		if(node.isName())
 		{
 			VarVal output = new VarVal(node.getString());
 			output.setValue(input.get(node.getString()).getValue());
-			
-			EMIT(output);
 			
 			for(Node i : node.children())
 			{
 				VarVal temp = dfs(i,input,cur_map);
 				output.setType(temp.getType());
 				output.setValue(temp.getValue());
-		
-				EMIT(output.getValue());
 			}
 		
 			return output;
+		}
+		else if(node.isAssign())
+		{
+			int cnt = 0;
+			Node left = null, right = null;
+			for(Node i : node.children())
+			{
+				if(cnt == 0)
+					left = i;
+				else 
+					right = i;
+				cnt ++;
+			}
+			
+			VarVal var = dfs(right,input,cur_map);
+			var.setName(left.getQualifiedName());
+			
+			return var;
+		}
+		else if(node.isInc() || node.isDec())
+		{
+			Node child = null;
+			for(Node i : node.children())
+			{
+				child = i;
+			}
+			
+			VarVal var = dfs(child, input, cur_map);
+			var = input.get(var.getName());
+			
+			VarVal tempv = new VarVal("1");
+			tempv.setType("number");
+			tempv.setValue("1");
+			if(node.isDec())
+				tempv.setValue("-1");
+			
+			VarVal newvar = VarVal.merge(var, tempv, Token.ADD);
+			newvar.setName(var.getName());
+			
+			if(newvar.getType().equals("String"))
+			{
+				newvar.setType("String");
+				newvar.setValue("NaN");
+			}
+			return newvar;
 		}
 		else if(node.isNumber())
 		{
@@ -226,8 +292,8 @@ public class ConstantPropagation {
 		else if(node.isAdd())
 		{
 			int count = 0;
-			VarVal var1 = new VarVal("temp1");
-			VarVal var2 = new VarVal("temp2");
+			VarVal var1 = null;
+			VarVal var2 = null;
 			
 			for(Node it : node.children())
 			{
@@ -239,6 +305,11 @@ public class ConstantPropagation {
 			}
 			
 			VarVal output = VarVal.merge(var1, var2, Token.ADD);
+			
+			if(cur_map.get(var1.getName()) !=null)
+				cur_map.get(var1.getName()).setType(var1.getType());
+			if(cur_map.get(var2.getName()) != null)
+				cur_map.get(var2.getName()).setType(var2.getType());
 			
 			return output;
 		}
@@ -259,7 +330,10 @@ public class ConstantPropagation {
 			}
 			
 			VarVal output = VarVal.merge(var1, var2, Token.MUL);
-			
+			if(cur_map.get(var1.getName()) !=null)
+				cur_map.get(var1.getName()).setType(var1.getType());
+			if(cur_map.get(var2.getName()) != null)
+				cur_map.get(var2.getName()).setType(var2.getType());
 			return output;
 		}
 		else if(node.getType() == Token.SUB)
@@ -289,7 +363,60 @@ public class ConstantPropagation {
 			output.setValue("NAC");
 			return output;
 		}
-		
+
 		return null;
 	}
+	
+	HashSet<DiGraphNode<Node,Branch>> visited_node = new HashSet<DiGraphNode<Node,Branch>>();
+	
+	private void traverse_cfg(DiGraphNode<Node,Branch> node)
+	{
+		if(node.getValue() == null)
+			return;
+		
+		EMIT(node.getValue());
+		EMIT(src_code.getLine(node.getValue().getLineno()));
+		node_map.get(node).DEBUG_MAP(false);
+		node_map.get(node).bug_report();
+		visited_node.add(node);
+		
+		for(DiGraphEdge<Node, Branch> i : node.getOutEdges())
+		{
+			DiGraphNode<Node, Branch> tempNode = i.getDestination();
+			if(!visited_node.contains(tempNode))
+			{
+				traverse_cfg(tempNode);
+			}
+		}
+	}
+	
+	private void process_function(NodeEx script_node)
+	{
+		for(Node i : script_node.getNode().getValue().children())
+		{
+			if(i.getType() == Token.FUNCTION)
+			{
+				EMIT("HAHA! I got one " + getFirstChild(i).getQualifiedName());
+				PrintFlowGraph.dfs(i, 1);
+				functions.put(getFirstChild(i).getQualifiedName(), new FuncVal(i,symbolTable,src_code));
+			
+				System.out.println("WOW! " + functions.get(getFirstChild(i).getQualifiedName()));
+			}
+		}
+	}
+	
+	private Node getFirstChild(Node node)
+	{
+		for(Node i : node.children())
+		{
+			return i;
+		}
+		return null;
+	}
+	
+	public VarVal getRetValue()
+	{
+		return returnVal;
+	}
+	
 }
