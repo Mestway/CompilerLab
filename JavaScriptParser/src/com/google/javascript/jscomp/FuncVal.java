@@ -33,6 +33,23 @@ public class FuncVal {
 		return;
 	}
 	
+	public String getRetType()
+	{
+		return ret_type;
+	}
+	public String getRetValue()
+	{
+		return ret_value;
+	}
+	public String getName()
+	{
+		return func_name;
+	}
+	public ArrayList<VarVal> getArgus()
+	{
+		return arguList;
+	}
+	
 	public void process()
 	{
 		f_compiler = new Compiler();
@@ -52,19 +69,6 @@ public class FuncVal {
 		PrintFlowGraph f_pfg = new PrintFlowGraph(f_cfg);
 		f_pfg.RecursivePrintGraph(f_cfg);
 		System.out.println("#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%");
-	}
-	
-	public String getRetType()
-	{
-		return ret_type;
-	}
-	public String getRetValue()
-	{
-		return ret_value;
-	}
-	public String getName()
-	{
-		return func_name;
 	}
 	
 	private void decompose()
@@ -91,6 +95,6 @@ public class FuncVal {
 	
 	public final String toString()
 	{
-		return ret_value.toString() + " & " + ret_value.toString();
+		return ret_value.toString() + " & " + ret_type.toString();
 	}
 }

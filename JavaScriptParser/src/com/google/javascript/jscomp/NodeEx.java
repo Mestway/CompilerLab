@@ -99,7 +99,7 @@ public class NodeEx {
 	{
 		if(m1.size() != m2.size())
 		{	
-			System.err.println("SIZE NOT EQUAL");
+			//System.err.println("SIZE NOT EQUAL");
 			return false;
 		}
 		
@@ -166,11 +166,36 @@ public class NodeEx {
 			String ifBugs = in_map.get(i.getKey()).merge(i.getValue());
 			if(! ifBugs.equals(""))
 			{
-				bug_report.add(i.getKey() + " " + ifBugs + " " + "@Line#" + node.getValue().getLineno());
+				bug_report.add(i.getKey() + " " + ifBugs + " " + "at line " + node.getValue().getLineno());
 			}
 		}
 		
 		bug_report();
+		return true;
+	}
+	
+	public static boolean merge_maps(HashMap<String,VarVal> m1, HashMap<String, VarVal> anothor_map)
+	{
+		ArrayList<String> bugsBuffer = new ArrayList<String>();
+		if(anothor_map.size() != m1.size())
+		{	
+			System.err.println("Severe ERROR! WARNING!");
+			return false;
+		}
+		
+		for(Entry<String, VarVal> i : anothor_map.entrySet())
+		{
+			String ifBugs = m1.get(i.getKey()).merge(i.getValue());
+			if(! ifBugs.equals(""))
+			{
+				bugsBuffer.add(i.getKey() + " " + ifBugs + " " + "@Line#" + "ret");
+			}
+		}
+		
+		for(String i : bugsBuffer)
+		{
+			System.out.println(i);
+		}
 		return true;
 	}
 	

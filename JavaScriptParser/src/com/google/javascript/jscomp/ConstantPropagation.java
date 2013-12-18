@@ -1,5 +1,6 @@
 package com.google.javascript.jscomp;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
@@ -22,17 +23,28 @@ public class ConstantPropagation {
 	private HashMap<String, FuncVal> functions = new HashMap<String, FuncVal>();
 	private SymbolTable symbolTable;
 	
+	private HashMap<String, VarVal> final_map = new HashMap<String, VarVal>();
+	
 	private VarVal returnVal = new VarVal("ret");
 	private Boolean Start_Flag;
 	
 	public void process()
 	{			
 		DiGraphNode<Node,Branch> entry_node = cfg.getEntry();
-		initNodeMap(entry_node);
-		
-		//while(NodeEx.map_equal(init_map, ))
-		computeMap(init_map,node_map.get(entry_node));
-		
+
+		while(!NodeEx.map_equal(init_map, final_map))
+		{
+			init_map = copyMap(final_map);
+			initNodeMap(entry_node);
+			Start_Flag = true;
+			computeMap(init_map,node_map.get(entry_node));
+			for(Entry<String, VarVal> i : final_map.entrySet())
+			{
+				i.getValue().setValue(VarVal.UNDEF);
+			}
+			if(!entry_node.getValue().isFunction())
+				break;
+		}
 		if(PrintCFG) {
 			NodeEx.BOOLEAN_PRINT = true;
 			traverse_cfg(cfg.getEntry());
@@ -52,7 +64,8 @@ public class ConstantPropagation {
 		src_code = src;
 		for(Symbol i : symbolTable.getAllSymbols())
 		{
-			init_map.put(i.getName(), new VarVal(i.getName()));
+			//init_map.put(i.getName(), new VarVal(i.getName()));
+			final_map.put(i.getName(), new VarVal(i.getName()));
 		}
 	}
 	
@@ -74,6 +87,7 @@ public class ConstantPropagation {
 	{	
 		if(node.getNode().getValue() == null)
 		{	
+			NodeEx.merge_maps(final_map, new_input);
 			return;
 		}
 		
@@ -83,7 +97,7 @@ public class ConstantPropagation {
 		HashMap<String, VarVal> cpMap = new HashMap<String, VarVal>();
 		for(Entry<String, VarVal> i : node.getInMap().entrySet())
 		{
-			cpMap.put(i.getKey(), i.getValue());
+			cpMap.put(i.getKey(), new VarVal(i.getValue()));
 		}
 		
 		switch(node.getTreeNodeType()) {
@@ -129,7 +143,6 @@ public class ConstantPropagation {
 
 	private void FUNCTION_Handler(NodeEx node, HashMap<String, VarVal> inMap,
 			HashMap<String, VarVal> cpMap) {
-		// TODO Auto-generated method stub
 		
 		Node f_node = node.getNode().getValue();
 		
@@ -149,10 +162,9 @@ public class ConstantPropagation {
 			HashMap<String, VarVal> cpMap) {
 			VarVal output = dfs(getFirstChild(node.getNode().getValue()), inMap, cpMap);
 			System.out.println("T_T " + output);
-			returnVal = output;
+			returnVal = new VarVal(output);
 	}
 
-	@SuppressWarnings("unused")
 	private HashMap<String, VarVal> copyMap(HashMap<String, VarVal> src)
 	{
 		HashMap<String, VarVal> dst = new HashMap<String, VarVal>();
@@ -176,6 +188,8 @@ public class ConstantPropagation {
 			VarVal var = dfs(name,input,newMap);
 			if(!newMap.get(var.getName()).equals(var));
 			{
+				if(var.getType().equals(VarVal.UNDEF))
+					var.setType(newMap.get(var.getName()).getType());
 				newMap.put(var.getName(), var);
 			}
 		}
@@ -234,6 +248,13 @@ public class ConstantPropagation {
 			}
 			
 			VarVal var = dfs(right,input,cur_map);
+			
+			if(cur_map.get(var.getName()) != null)
+			{
+				if(cur_map.get(var.getName()).getType().equals(VarVal.UNDEF))
+					cur_map.get(var.getName()).setType(cur_map.get(left.getQualifiedName()).getType());
+			}
+			
 			var.setName(left.getQualifiedName());
 			
 			return var;
@@ -359,11 +380,65 @@ public class ConstantPropagation {
 		else if(node.isCall())
 		{
 			VarVal output = new VarVal("temp");
-			output.setType("UNDEF");
-			output.setValue("NAC");
+			
+			String functionName = getFirstChild(node).getString();
+			
+			output.setType(functions.get(getFirstChild(node).getString()).getRetType());
+			output.setValue(functions.get(getFirstChild(node).getString()).getRetValue());
+			
+			ArrayList<VarVal> argus = new ArrayList<VarVal>();
+			
+			int cnt = 0;
+			for(Node vars : node.children())
+			{
+				cnt ++;
+				if(cnt == 1)
+					continue;
+				
+				switch(vars.getType())
+				{
+				case Token.NAME:
+					if(input.get(vars.getQualifiedName()) != null)
+					{
+						argus.add(new VarVal(input.get(vars.getQualifiedName())));
+					}
+					else
+					{
+						ERROR("Argument not existed at line " + node.getLineno());
+					}
+					break;
+				case Token.STRING:
+					VarVal Stringv = new VarVal("");
+					Stringv.setType("String");
+					Stringv.setValue(vars.getString());
+					argus.add(Stringv);
+					break;
+				case Token.NUMBER:
+					VarVal Numberv = new VarVal("");
+					Numberv.setType("number");
+					Numberv.setValue(vars.getQualifiedName());
+					argus.add(Numberv);
+					break;
+				default:		
+				}	
+			}
+			if(argus.size() != functions.get(functionName).getArgus().size())
+			{
+				ERROR("Arguments size does not match at line " + node.getLineno());
+			}
+			else
+			{
+				for(int i = 0; i < argus.size(); i ++)
+				{
+					if(type_cmp(argus.get(i).getType(), functions.get(functionName).getArgus().get(i).getType()))
+					{
+						WARNING("Type may not match at line " + node.getLineno());
+					}
+				}
+			}
 			return output;
 		}
-
+		
 		return null;
 	}
 	
@@ -419,4 +494,31 @@ public class ConstantPropagation {
 		return returnVal;
 	}
 	
+	public void ERROR(Object st)
+	{
+		System.out.println("ERROR: " + st);
+	}
+	
+	public void WARNING(Object st)
+	{
+		System.out.println("WARNING: " + st);
+	}
+	
+	private static boolean type_cmp(String type1, String type2)
+	{
+		return (type_rank(type1) > type_rank(type2));
+	}
+	private static int type_rank(String type)
+	{
+		if(type.equals("String"))
+			return 3;
+		else if(type.equals("number"))
+			return 2;
+		else if(type.equals("boolean"))
+			return 1;
+		else if(type.equals(VarVal.UNDEF))
+			return 0;
+		
+		return 0;
+	}
 }

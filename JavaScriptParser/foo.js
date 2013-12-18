@@ -21,12 +21,16 @@ while(i < x)
 	i ++;
 }
 
-function add(x1,y1) {
-	var c = x1;
+function add(x1,y1,z1) {
+	var c;
 	var d = y1;
 
+	z1 = z1 + "haha";
+
+	c = x1;	
+
 	if(x1 < 0)
-		return y1;
+		return y1 * 3;
 	else return c + d;
 }
 
@@ -41,9 +45,9 @@ for(var i = 0; i < 3; i ++)
   		x = x + i;
 	else {
 		x = x + 19 + y;
-		x = x * i + add(x,y);
+		x = x * i + add(x,y,4);
 	}
 }
 
 var z;
-z = add(x, y);
+z = add(x, "da", "d");
