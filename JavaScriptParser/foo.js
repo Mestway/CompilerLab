@@ -5,6 +5,14 @@ var y = 10 + 3 * x;
 var k;
 var kk2 = 326 + "str";
 
+var tx = new(3);
+k = tx[2];
+
+tx.h = 3;
+
+k = tx.h;
+
+var u = k = 3;
 t++;
 
 t = y * 3 - 2;
@@ -13,6 +21,11 @@ t--;
 var i = 0;
 
 i++;
+
+if(3 < 5)
+{
+  i = 1;
+}
 
 while(i < x)
 {
@@ -27,7 +40,12 @@ function add(x1,y1,z1) {
 
 	z1 = z1 + "haha";
 
-	c = x1;	
+	function p1(uip)
+	{	
+		return uip + 1;
+			
+	}
+	c = p1(x1);	
 
 	if(x1 < 0)
 		return y1 * 3;

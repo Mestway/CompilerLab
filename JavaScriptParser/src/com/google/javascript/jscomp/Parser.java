@@ -21,12 +21,14 @@ public class Parser {
 
 	public static void main(String args[]) throws IOException
 	{
+		Boolean PRINT_FLOW = false;
+		
 		File file = new File("foo.js");
 	
 		SourceFile src = SourceFile.fromFile(file);
 		
 		JsAst js = new JsAst(src);
-		System.out.println(src.getCode());
+		//System.out.println(src.getCode());
 		
 		Compiler compiler = new Compiler();
 		
@@ -37,9 +39,10 @@ public class Parser {
 		cfgPass.process(null, js.getAstRoot(compiler));
 		ControlFlowGraph<Node> cfg = cfgPass.getCfg();
 		
-		PrintFlowGraph pfg = new PrintFlowGraph(cfg);
-		pfg.RecursivePrintGraph(cfg);
-		
+		if(PRINT_FLOW) {
+			PrintFlowGraph pfg = new PrintFlowGraph(cfg);
+			pfg.RecursivePrintGraph(cfg);
+		}
 		List<SourceFile> inputs = Lists.newArrayList(SourceFile.fromFile(file));
 		List<SourceFile> externs = Lists.newArrayList(SourceFile.fromCode("externs1", EXTERNS));
 

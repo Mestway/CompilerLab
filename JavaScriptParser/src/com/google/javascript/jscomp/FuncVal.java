@@ -12,12 +12,15 @@ public class FuncVal {
 	private String ret_value;
 	
 	private Node f_node; //the node of FUNCTION type 
+	@SuppressWarnings("unused")
 	private Node start_node; // first block node;
 	private Compiler f_compiler;
 	private ControlFlowAnalysis f_cfa;
 	private ControlFlowGraph<Node> f_cfg;
 	private SymbolTable f_symbolTable;
 	private SourceFile f_src;
+	
+	private boolean PRINT_FUNC = false;
 	
 	private ArrayList<VarVal> arguList = new ArrayList<VarVal>();
 	
@@ -65,10 +68,12 @@ public class FuncVal {
 		ret_type = f_cpf.getRetValue().getType();
 		ret_value = f_cpf.getRetValue().getValue();
 		
-		System.out.println("#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%");
-		PrintFlowGraph f_pfg = new PrintFlowGraph(f_cfg);
-		f_pfg.RecursivePrintGraph(f_cfg);
-		System.out.println("#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%");
+		if(PRINT_FUNC) {
+			System.out.println("#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%");
+			PrintFlowGraph f_pfg = new PrintFlowGraph(f_cfg);
+			f_pfg.RecursivePrintGraph(f_cfg);
+			System.out.println("#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%#$%");
+		}
 	}
 	
 	private void decompose()

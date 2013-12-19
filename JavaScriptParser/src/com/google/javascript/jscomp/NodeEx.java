@@ -23,6 +23,7 @@ public class NodeEx {
 	private STATE state;
 	
 	private ArrayList<String> bug_report = new ArrayList<String>();
+	public ArrayList<String> bug_j = new ArrayList<String>();
 	
 	public NodeEx(DiGraphNode<Node, Branch> nd, HashMap<String, VarVal> in_mp, HashMap<String, VarVal> out_mp)
 	{
@@ -150,6 +151,10 @@ public class NodeEx {
 		{
 			return GraphNodeType.WH_FUNCTION;
 		}
+		else if(this.getNode().getValue().isIf())
+		{
+			return GraphNodeType.WH_IF;
+		}
 		else return GraphNodeType.WH_PANIC;
 	}
 	
@@ -170,7 +175,7 @@ public class NodeEx {
 			}
 		}
 		
-		bug_report();
+		//bug_report();
 		return true;
 	}
 	
@@ -238,6 +243,14 @@ public class NodeEx {
 	public void bug_report()
 	{
 		for(String i : bug_report)
+		{
+			System.out.println("WARNING: " + i);
+		}
+	}
+	
+	public void bug_j_report()
+	{
+		for(String i : bug_j)
 		{
 			System.out.println("WARNING: " + i);
 		}

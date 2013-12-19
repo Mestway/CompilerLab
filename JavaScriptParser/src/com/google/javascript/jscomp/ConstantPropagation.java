@@ -27,6 +27,7 @@ public class ConstantPropagation {
 	
 	private VarVal returnVal = new VarVal("ret");
 	private Boolean Start_Flag;
+	private Boolean REWRITE = false;
 	
 	public void process()
 	{			
@@ -46,6 +47,7 @@ public class ConstantPropagation {
 				break;
 		}
 		if(PrintCFG) {
+			REWRITE = true;
 			NodeEx.BOOLEAN_PRINT = true;
 			traverse_cfg(cfg.getEntry());
 		}
@@ -116,6 +118,15 @@ public class ConstantPropagation {
 		case WH_FUNCTION:
 			FUNCTION_Handler(node, node.getInMap(), cpMap);
 			break;
+		case WH_IF:
+			IF_Handler(node, node.getInMap(), cpMap);
+			break;
+		case WH_WHILE:
+			WHILE_Handler(node, node.getInMap(), cpMap);
+			break;
+		case WH_FOR:
+			//FOR_Handler(node, node.getInMap(), cpMap);
+			break;
 		default:
 			;
 		};
@@ -129,7 +140,7 @@ public class ConstantPropagation {
 			Start_Flag = false;
 			node.setOutMap(cpMap);
 		}
-		node.DEBUG_MAP(false);
+		//node.DEBUG_MAP(false);
 		
 		if(!node_map.get(node.getNode()).getState().equals(STATE.STABLE) || Start_Flag)
 		{
@@ -141,8 +152,54 @@ public class ConstantPropagation {
 		}
 	}
 
+	@SuppressWarnings("unused")
+	private void FOR_Handler(NodeEx node, HashMap<String, VarVal> inMap,
+			HashMap<String, VarVal> cpMap) {
+
+		for(Node child : node.getNode().getValue().children())
+		{
+			if(child.getType() == Token.LT || child.getType() == Token.LE ||
+				child.getType() == Token.GT || child.getType() == Token.GE ||
+				child.getType() == Token.EQ || child.getType() == Token.NE)
+			{
+				node.bug_j.clear();
+				VarVal output = dfs(child, inMap, cpMap, false);
+				if(output.isConst())
+				{
+					node.bug_j.add("A not-taken branch at line " + node.getNode().getValue().getLineno());
+				}
+			}
+		}
+	}
+
+	private void WHILE_Handler(NodeEx node, HashMap<String, VarVal> inMap,
+			HashMap<String, VarVal> cpMap) 
+	{
+		Node child = getFirstChild(node.getNode().getValue());
+		node.bug_j.clear();
+		VarVal output = dfs(child, inMap, cpMap, false);
+		if(output.isConst())
+		{
+			node.bug_j.add("A not-taken branch at line " + node.getNode().getValue().getLineno());
+		}
+		
+	}
+
+	private void IF_Handler(NodeEx node, HashMap<String, VarVal> inMap,
+			HashMap<String, VarVal> cpMap) {
+		Node child = getFirstChild(node.getNode().getValue());
+		node.bug_j.clear();
+		VarVal output = dfs(child, inMap, cpMap, false);
+		if(output.isConst())
+		{
+			node.bug_j.add("A not-taken branch at line " + node.getNode().getValue().getLineno());
+		}
+	}
+
 	private void FUNCTION_Handler(NodeEx node, HashMap<String, VarVal> inMap,
 			HashMap<String, VarVal> cpMap) {
+		
+		process_function(node.getNode().getValue().getLastChild());
 		
 		Node f_node = node.getNode().getValue();
 		
@@ -160,8 +217,7 @@ public class ConstantPropagation {
 
 	private void RETURN_Handler(NodeEx node, HashMap<String, VarVal> inMap,
 			HashMap<String, VarVal> cpMap) {
-			VarVal output = dfs(getFirstChild(node.getNode().getValue()), inMap, cpMap);
-			System.out.println("T_T " + output);
+			VarVal output = dfs(getFirstChild(node.getNode().getValue()), inMap, cpMap, false);
 			returnVal = new VarVal(output);
 	}
 
@@ -177,6 +233,7 @@ public class ConstantPropagation {
 		return dst;
 	}
 	
+	@SuppressWarnings("unused")
 	private void EMIT(Object str) {
 		System.out.println(str);
 	}
@@ -185,7 +242,7 @@ public class ConstantPropagation {
 	{
 		for(Node name : node.getNode().getValue().children())
 		{
-			VarVal var = dfs(name,input,newMap);
+			VarVal var = dfs(name,input,newMap, false);
 			if(!newMap.get(var.getName()).equals(var));
 			{
 				if(var.getType().equals(VarVal.UNDEF))
@@ -209,16 +266,19 @@ public class ConstantPropagation {
 		VarVal var = new VarVal("temp");
 		for(Node child : node.getNode().getValue().children())
 		{
-			var = dfs(child, input, newMap);
+			var = dfs(child, input, newMap, false);
 		}
 		
-		if(!newMap.get(var.getName()).equals(var));
+		if(newMap.get(var.getName()) != null)
 		{
-			newMap.put(var.getName(), var);
+			if(!newMap.get(var.getName()).equals(var));
+			{
+				newMap.put(var.getName(), var);
+			}
 		}
 	}
 
-	private VarVal dfs(Node node, HashMap<String, VarVal> input,HashMap<String, VarVal> cur_map)
+	private VarVal dfs(Node node, HashMap<String, VarVal> input,HashMap<String, VarVal> cur_map, Boolean rewrite)
 	{
 		if(node.isName())
 		{
@@ -227,7 +287,7 @@ public class ConstantPropagation {
 			
 			for(Node i : node.children())
 			{
-				VarVal temp = dfs(i,input,cur_map);
+				VarVal temp = dfs(i,input,cur_map, false);
 				output.setType(temp.getType());
 				output.setValue(temp.getValue());
 			}
@@ -247,7 +307,7 @@ public class ConstantPropagation {
 				cnt ++;
 			}
 			
-			VarVal var = dfs(right,input,cur_map);
+			VarVal var = dfs(right,input,cur_map, false);
 			
 			if(cur_map.get(var.getName()) != null)
 			{
@@ -267,7 +327,7 @@ public class ConstantPropagation {
 				child = i;
 			}
 			
-			VarVal var = dfs(child, input, cur_map);
+			VarVal var = dfs(child, input, cur_map, false);
 			var = input.get(var.getName());
 			
 			VarVal tempv = new VarVal("1");
@@ -319,9 +379,9 @@ public class ConstantPropagation {
 			for(Node it : node.children())
 			{
 				if(count == 0)
-					var1 = dfs(it,input,cur_map);
+					var1 = dfs(it,input,cur_map, false);
 				else if(count == 1)
-					var2 = dfs(it,input,cur_map);
+					var2 = dfs(it,input,cur_map, false);
 				count ++;
 			}
 			
@@ -343,9 +403,9 @@ public class ConstantPropagation {
 			for(Node it : node.children())
 			{
 				if(count == 0)
-					var1 = dfs(it,input,cur_map);
+					var1 = dfs(it,input,cur_map, false);
 				else if(count == 1)
-					var2 = dfs(it,input,cur_map);
+					var2 = dfs(it,input,cur_map, false);
 				
 				count ++;
 			}
@@ -366,14 +426,81 @@ public class ConstantPropagation {
 			for(Node it : node.children())
 			{
 				if(count == 0)
-					var1 = dfs(it,input,cur_map);
+					var1 = dfs(it,input,cur_map, false);
 				else if(count == 1)
-					var2 = dfs(it,input,cur_map);
+					var2 = dfs(it,input,cur_map, false);
 				
 				count ++;
 			}
 			
 			VarVal output = VarVal.merge(var1, var2, Token.SUB);
+			
+			return output;
+		}
+		else if(node.getType() == Token.LT || node.getType() == Token.GT ||
+				node.getType() == Token.EQ || node.getType() == Token.NE ||
+				node.getType() == Token.LE || node.getType() == Token.GE)
+		{
+			VarVal output = new VarVal("#$#$#$ret");
+			output.setType("boolean");
+			output.setValue(VarVal.NAC);
+			Node left = getAnyChild(node, 1);
+			Node right = getAnyChild(node, 2);
+			
+			VarVal lv = dfs(left, input, cur_map, false);
+			VarVal rv = dfs(right, input, cur_map, false);
+			
+			if(lv.getValue().equals(VarVal.UNDEF) || rv.getValue().equals(VarVal.UNDEF))
+			{
+				ERROR("Compare value not initialized at line " + node.getLineno());
+			}
+			else if(lv.isConst() && rv.isConst())
+			{
+				Double lft ,rgt;
+				try{
+					lft = new Double(lv.getValue());
+					rgt = new Double(rv.getValue());
+					
+					switch(node.getType())
+					{
+					case Token.LT:
+						output.setValue(new Boolean(lft < rgt).toString());
+						break;
+					case Token.LE:
+						output.setValue(new Boolean(lft <= rgt).toString());
+						break;
+					case Token.GT:
+						output.setValue(new Boolean(lft > rgt).toString());
+						break;
+					case Token.GE:
+						output.setValue(new Boolean(lft >= rgt).toString());
+						break;
+					case Token.EQ:
+						output.setValue(new Boolean(lft == rgt).toString());
+						break;
+					case Token.NE:
+						output.setValue(new Boolean(lft != rgt).toString());
+						break;
+					}
+				}catch(Exception e){
+					
+				}
+			}
+			
+			if(cur_map.get(lv.getName()) != null)
+			{
+				VarVal tv = new VarVal("tp");
+				tv.setType("number");
+				tv.setValue(VarVal.UNDEF);
+				cur_map.get(lv.getName()).merge(tv);
+			}
+			if(cur_map.get(rv.getName()) != null)
+			{
+				VarVal tv = new VarVal("tp");
+				tv.setType("number");
+				tv.setValue(VarVal.UNDEF);
+				cur_map.get(rv.getName()).merge(tv);
+			}
 			
 			return output;
 		}
@@ -438,6 +565,42 @@ public class ConstantPropagation {
 			}
 			return output;
 		}
+		else if(node.isNew())
+		{
+			VarVal output = new VarVal("#newv");
+			output.setType(VarVal.COMPLEX);
+			output.setValue(VarVal.NAC);
+			
+			for(Node child : node.children())
+			{
+				dfs(child, input, cur_map, false);
+			}
+			return output;
+		}
+		else if(node.isGetElem())
+		{
+			VarVal output = new VarVal("#newv");
+			output.setType(VarVal.UNDEF);
+			output.setValue(VarVal.NAC);
+			
+			for(Node child : node.children())
+			{
+				dfs(child, input, cur_map, false);
+			}
+			return output;
+		}
+		else if(node.isGetProp())
+		{
+			VarVal output = new VarVal("#PROP");
+			output.setType(VarVal.UNDEF);
+			output.setValue(VarVal.NAC);
+			
+			VarVal name = dfs(node.getFirstChild(), input, cur_map, false);
+			cur_map.get(name.getName()).setType(VarVal.COMPLEX);
+			cur_map.get(name.getName()).setValue(VarVal.NAC);
+			
+			return output;
+		}
 		
 		return null;
 	}
@@ -449,11 +612,15 @@ public class ConstantPropagation {
 		if(node.getValue() == null)
 			return;
 		
-		EMIT(node.getValue());
-		EMIT(src_code.getLine(node.getValue().getLineno()));
-		node_map.get(node).DEBUG_MAP(false);
+		//EMIT(node.getValue());
+		//EMIT(src_code.getLine(node.getValue().getLineno()));
+		//node_map.get(node).DEBUG_MAP(true);
+		//node_map.get(node).DEBUG_MAP(false);
+		node_map.get(node).bug_j_report();
 		node_map.get(node).bug_report();
 		visited_node.add(node);
+		
+		dfsChange(node.getValue(), node_map.get(node).getInMap(), false);
 		
 		for(DiGraphEdge<Node, Branch> i : node.getOutEdges())
 		{
@@ -465,21 +632,68 @@ public class ConstantPropagation {
 		}
 	}
 	
+	private void dfsChange(Node node,
+			HashMap<String, VarVal> inMap, boolean b) {
+		
+		if(node.isBlock() || node.isScript())
+		{
+			return;
+		}
+		
+		if(node.isAssign())
+		{
+			dfsChange(node.getFirstChild(), inMap, false);
+			dfsChange(node.getLastChild(), inMap, true);
+		}
+		if(node.isName())
+		{
+			if(b)
+			{
+				VarVal v = inMap.get(node.getString());
+				if(v != null && v.isConst())
+				{
+					node.setString(v.getValue());
+					//System.out.println(node);
+				}
+			}
+		}
+		else {
+			for(Node i : node.children())
+			{
+				dfsChange(i, inMap, b);
+			}
+		}
+	}
+
 	private void process_function(NodeEx script_node)
 	{
 		for(Node i : script_node.getNode().getValue().children())
 		{
 			if(i.getType() == Token.FUNCTION)
 			{
-				EMIT("HAHA! I got one " + getFirstChild(i).getQualifiedName());
 				PrintFlowGraph.dfs(i, 1);
 				functions.put(getFirstChild(i).getQualifiedName(), new FuncVal(i,symbolTable,src_code));
-			
-				System.out.println("WOW! " + functions.get(getFirstChild(i).getQualifiedName()));
 			}
 		}
 	}
 	
+	/**
+	 * Pre-process functions
+	 * @param nd The start node of a Flow
+	 */
+	private void process_function(Node nd)
+	{
+		for(Node i : nd.children())
+		{
+			if(i.getType() == Token.FUNCTION)
+			{
+				PrintFlowGraph.dfs(i, 1);
+				functions.put(getFirstChild(i).getQualifiedName(), new FuncVal(i,symbolTable,src_code));
+			}
+		}
+	}
+	
+	/* return the first child of a node */
 	private Node getFirstChild(Node node)
 	{
 		for(Node i : node.children())
@@ -489,16 +703,36 @@ public class ConstantPropagation {
 		return null;
 	}
 	
+	/* start by 1, the last one is size()*/
+	private Node getAnyChild(Node node, int n)
+	{
+		Node ret = null;
+		int count = 1;
+		for(Node i : node.children())
+		{
+			if(count == n)
+			{
+				ret = i;
+				break;
+			}
+			count ++;
+		}
+		return ret;
+	}
+	
+	/* If it is a function, getRetValue() to check the return type.
+	 * Of no use if in a normal parse.
+	 * */ 
 	public VarVal getRetValue()
 	{
 		return returnVal;
 	}
 	
+	/* generate Error */
 	public void ERROR(Object st)
 	{
 		System.out.println("ERROR: " + st);
 	}
-	
 	public void WARNING(Object st)
 	{
 		System.out.println("WARNING: " + st);

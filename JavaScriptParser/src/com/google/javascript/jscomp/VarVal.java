@@ -6,6 +6,7 @@ public class VarVal {
 	
 	static final String UNDEF = "*UNDEF*";
 	static final String NAC = "*NAC*";
+	static final String COMPLEX = "*COMPLEX*";
 	
 	private String name;
 	private String value;
@@ -53,7 +54,15 @@ public class VarVal {
 	{
 		type = _type;
 	}
-	
+	public boolean isConst()
+	{
+		if(!value.equals(NAC) && !value.equals(UNDEF))
+		{
+			return true;
+		}
+		else 
+			return false;
+	}
 	public String merge(VarVal _value) 
 	{	
 		String ret = "";
