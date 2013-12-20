@@ -27,7 +27,15 @@ public class ConstantPropagation {
 	
 	private VarVal returnVal = new VarVal("ret");
 	private Boolean Start_Flag;
+	@SuppressWarnings("unused")
 	private Boolean REWRITE = false;
+	
+	private Boolean R2 = true;
+	
+	public ControlFlowGraph<Node> getCFG()
+	{
+		return cfg;
+	}
 	
 	public void process()
 	{			
@@ -620,7 +628,7 @@ public class ConstantPropagation {
 		node_map.get(node).bug_report();
 		visited_node.add(node);
 		
-		dfsChange(node.getValue(), node_map.get(node).getInMap(), false);
+		dfsChange(node.getValue(), node_map.get(node).getInMap(), node_map.get(node).getOutMap(), false);
 		
 		for(DiGraphEdge<Node, Branch> i : node.getOutEdges())
 		{
@@ -633,7 +641,7 @@ public class ConstantPropagation {
 	}
 	
 	private void dfsChange(Node node,
-			HashMap<String, VarVal> inMap, boolean b) {
+			HashMap<String, VarVal> inMap, HashMap<String, VarVal> outMap, boolean b) {
 		
 		if(node.isBlock() || node.isScript())
 		{
@@ -642,8 +650,32 @@ public class ConstantPropagation {
 		
 		if(node.isAssign())
 		{
-			dfsChange(node.getFirstChild(), inMap, false);
-			dfsChange(node.getLastChild(), inMap, true);
+			dfsChange(node.getFirstChild(), inMap, outMap, false);
+			if(R2)
+			{
+				if(node.getFirstChild().getType() == Token.NAME && outMap.get(node.getFirstChild().getString()).isConst())
+				{
+					if(!node.getFirstChild().equals(node.getLastChild()))
+						node.removeChild(node.getLastChild());
+					if(node.getFirstChild() != null) {
+						
+						Node nd;
+						String st = outMap.get(node.getFirstChild().getString()).getValue();
+						if(outMap.get(node.getFirstChild().getString()).getType().equals("String"))
+							nd = Node.newString(st);
+						else
+						{
+							nd = Node.newString("nb#" + st);
+						}
+						//nd.setString(outMap.get(node.getFirstChild().getString()).getValue());
+						node.addChildToBack(nd);
+					}
+				}
+				else 
+					dfsChange(node.getLastChild(), inMap, outMap, true);
+			}
+			else 
+				dfsChange(node.getLastChild(), inMap, outMap, true);
 		}
 		if(node.isName())
 		{
@@ -652,15 +684,18 @@ public class ConstantPropagation {
 				VarVal v = inMap.get(node.getString());
 				if(v != null && v.isConst())
 				{
-					node.setString(v.getValue());
-					//System.out.println(node);
+					if(v.getType().equals("String"))
+						node.setString(v.getValue());
+					else {
+						node.setString("nb#" + v.getValue());
+					}
 				}
 			}
 		}
 		else {
 			for(Node i : node.children())
 			{
-				dfsChange(i, inMap, b);
+				dfsChange(i, inMap,outMap, b);
 			}
 		}
 	}

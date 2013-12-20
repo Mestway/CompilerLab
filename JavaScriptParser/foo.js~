@@ -1,6 +1,6 @@
 var x = 10;
 var t = "Str";
-var b = true;
+//var b = true;
 var y = 10 + 3 * x;
 var k;
 var kk2 = 326 + "str";
@@ -9,6 +9,8 @@ var tx = new(3);
 k = tx[2];
 
 tx.h = 3;
+
+k = tx.h;
 
 var u = k = 3;
 t++;

@@ -26,12 +26,12 @@ private static final String EXTERNS = "";
     
 	public static void main(String args[]) throws IOException
 	{
-		File file = new File("sample1.js");
+		File file = new File("foo.js");
 	
 		SourceFile src = SourceFile.fromFile(file);
 		
 		JsAst js = new JsAst(src);
-		System.out.println(src.getCode());
+		//System.out.println(src.getCode());
 		
 		Compiler compiler = new Compiler();
 		
@@ -45,11 +45,19 @@ private static final String EXTERNS = "";
 		//System.out.println(cfg.getEntry().getValue());
 		//System.out.println(cfg.getEntry().getOutEdges().get(0).getClass());
 		
-		PrintAST(cfg.getEntry().getValue(), 0);
+		
 		WH_AstPreworker astpreworker = new WH_AstPreworker(cfg.getEntry().getValue());
 		astpreworker.process();
-		System.out.println("---------------------");
+		WH_CodeGenerator cg = new WH_CodeGenerator(cfg.getEntry().getValue());
 		PrintAST(cfg.getEntry().getValue(), 0);
+		System.out.println(cg.generate());
+	
+		Parser ps = new Parser();
+		ps.process(cg.generate());
 		
+		System.out.println("#$%^%$#$%^%$#$%^%$#$%^%$#$%^%$#$%^%$#$%^&^%$#$%^&^%$#$%^&^%%#\n");
+		
+		WH_CodeGenerator cg2 = new WH_CodeGenerator(ps.cpf.getCFG().getEntry().getValue());
+		System.out.println(cg2.generate());
 	}
 }

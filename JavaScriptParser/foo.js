@@ -42,8 +42,11 @@ function add(x1,y1,z1) {
 
 	function p1(uip)
 	{	
-		return uip + 1;
-			
+		function p2(pp)
+		{
+			return pp + 1;
+		}
+		return p2(uip) + 1;	
 	}
 	c = p1(x1);	
 

@@ -1,13 +1,14 @@
 package com.google.javascript.jscomp;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.google.javascript.rhino.Node;
 
 public class Parser {
+	
+	ConstantPropagation cpf;
+	Boolean PRINT_FLOW = true;
 	
 	private static final String EXTERNS = "";
 	
@@ -19,13 +20,11 @@ public class Parser {
         return SourceFile.fromCode(fileName, source);
     }
 
-	public static void main(String args[]) throws IOException
-	{
-		Boolean PRINT_FLOW = false;
-		
-		File file = new File("foo.js");
-	
-		SourceFile src = SourceFile.fromFile(file);
+	public void process(String code)
+	{	
+		SourceFile src = SourceFile.fromCode("foo.js", code);
+		//File file = new File("foo.js");
+		//SourceFile src = SourceFile.fromFile(file);
 		
 		JsAst js = new JsAst(src);
 		//System.out.println(src.getCode());
@@ -43,13 +42,13 @@ public class Parser {
 			PrintFlowGraph pfg = new PrintFlowGraph(cfg);
 			pfg.RecursivePrintGraph(cfg);
 		}
-		List<SourceFile> inputs = Lists.newArrayList(SourceFile.fromFile(file));
+		List<SourceFile> inputs = Lists.newArrayList(SourceFile.fromCode("foo.js",code));
 		List<SourceFile> externs = Lists.newArrayList(SourceFile.fromCode("externs1", EXTERNS));
 
 		compiler.compile(externs, inputs, options);
 		SymbolTable symbol_table = compiler.buildKnownSymbolTable();
 		
-		ConstantPropagation cpf = new ConstantPropagation();
+		cpf = new ConstantPropagation();
 		cpf.init(cfg, symbol_table, src);
 		cpf.process();
 	}
