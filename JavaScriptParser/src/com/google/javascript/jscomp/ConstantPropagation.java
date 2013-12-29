@@ -139,6 +139,7 @@ public class ConstantPropagation {
 			;
 		};
 		
+		node.setState(STATE.UNSTABLE);
 		if(node.map_equal(false,cpMap))
 		{
 			node.setState(STATE.STABLE);

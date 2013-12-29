@@ -26,7 +26,7 @@ private static final String EXTERNS = "";
     
 	public static void main(String args[]) throws IOException
 	{
-		File file = new File("foo.js");
+		File file = new File("test1.js");
 	
 		SourceFile src = SourceFile.fromFile(file);
 		
